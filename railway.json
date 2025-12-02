@@ -1,0 +1,15 @@
+{
+  "build": {
+    "builder": "NIXPACKS",
+    "buildCommand": "npm install && npm run build --production && composer install --no-dev --optimize-autoloader"
+  },
+  "deploy": {
+    "startCommand": "chmod +x start.sh && ./start.sh",
+    "healthcheckPath": "/health",
+    "healthcheckTimeout": 300,
+    "restartPolicyType": "ON_FAILURE"
+  },
+  "addons": [
+    "mysql"
+  ]
+}
