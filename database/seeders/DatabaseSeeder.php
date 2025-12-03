@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Cache;
 
 class DatabaseSeeder extends Seeder
 {
@@ -35,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'TERRA125' => 'Rafi', 
             'TERRA015' => 'Arya',
         ];
-        \Cache::forever('kode_unik_petanis', $kodeUnikPetanis);
+        Cache::forever('kode_unik_petanis', $kodeUnikPetanis);
         $this->command->info('Kode Unik Petani berhasil dibuat!');
         $this->command->info('Kode yang tersedia:');
         foreach ($kodeUnikPetanis as $kode => $nama) {
