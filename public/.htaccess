@@ -1,3 +1,23 @@
+<IfModule mod_mime.c>
+    # Ensure .mjs and .wasm are served with correct MIME types for module and wasm loading
+    AddType application/javascript .mjs
+    AddType application/wasm .wasm
+    AddType application/javascript .js
+</IfModule>
+
+<IfModule mod_headers.c>
+    # Enable cross-origin isolation (required for WebAssembly threads / SharedArrayBuffer)
+    Header set Cross-Origin-Opener-Policy "same-origin"
+    Header set Cross-Origin-Embedder-Policy "require-corp"
+
+    # If you serve assets that may be loaded cross-origin by your page, you can allow them
+    # to be loaded by adding CORP on those assets. Adjust as needed for your environment.
+    <FilesMatch "\.(wasm|mjs|js)$">
+        Header set Cross-Origin-Resource-Policy "same-origin"
+    </FilesMatch>
+</IfModule>
+
+# Fallback for environments without mod_mime/mod_headers: nothing harmful if modules missing.
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes

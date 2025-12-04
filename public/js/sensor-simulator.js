@@ -35,12 +35,14 @@ class SensorSimulator {
     }
     async saveToBackendAPI(sensorData) {
         try {
-            console.log('[SENSOR] Sending data to:', window.ROBOT_API_URL + '/sensor/data');
+            // Normalize base URL to avoid accidental double slashes
+            const baseApi = (window.ROBOT_API_URL || '').replace(/\/+$/, '');
+            console.log('[SENSOR] Sending data to:', baseApi + '/sensor/data');
             console.log('[SENSOR] Data:', sensorData);
             const controller = new AbortController();
             const timeoutId = setTimeout(() => controller.abort(), 5000);
-            
-            const response = await fetch(window.ROBOT_API_URL + '/sensor/data', {
+
+            const response = await fetch(baseApi + '/sensor/data', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
